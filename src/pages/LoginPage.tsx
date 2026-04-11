@@ -3,19 +3,25 @@ import { MailOutlined, LockOutlined, GoogleOutlined, AppleOutlined, FacebookOutl
 import { StyledLogin } from './LoginPage';
 import loginImg from '../assets/login.png';
 import { useNavigate } from 'react-router-dom';
+import { useLogin } from '../composables/useLogin';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const onFinish = (values: any) => {
+
+  const { isPending, mutate } = useLogin()
+
+  const onFinish = (values: { email: string, password: string }) => {
+    mutate(values)
     console.log('Login data:', values);
   };
 
   return (
     <StyledLogin>
+      <div>{isPending ? 'LOADING...' : 'Not loading'}</div>
       {/* Chap taraf - Banner */}
       <div className="auth-banner">
-         {/* Bu yerga rasmni import qilib qo'yasan */}
-         <img src={loginImg} alt="Auth Illustration" />
+        {/* Bu yerga rasmni import qilib qo'yasan */}
+        <img src={loginImg} alt="Auth Illustration" />
       </div>
 
       {/* O'ng taraf - Forma */}
