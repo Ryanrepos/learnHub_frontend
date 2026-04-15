@@ -37,31 +37,12 @@ export const StyledSignUp = styled.div`
     margin-bottom: 30px;
   }
 
-  /* Role Switcher (Student/Instructor) */
-  .role-switcher {
+  .name-row {
     display: flex;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 30px;
-    padding: 5px;
-    margin-bottom: 30px;
-    
-    .role-btn {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 25px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-      background: transparent;
-      color: #6b7280;
-      
-      &.active {
-        background: #ffda00;
-        color: #000;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      }
+    gap: 15px;
+    @media (max-width: 480px) {
+      flex-direction: column;
+      gap: 0;
     }
   }
 
@@ -91,7 +72,6 @@ export const StyledSignUp = styled.div`
     margin: 25px 0;
     position: relative;
     color: #9ca3af;
-    font-size: 14px;
     &::before, &::after {
       content: "";
       position: absolute;
@@ -118,7 +98,8 @@ export const StyledSignUp = styled.div`
       justify-content: center;
       border: 1px solid #e5e7eb;
       cursor: pointer;
-      font-size: 20px;
+      transition: 0.3s;
+      &:hover { background: #f9fafb; }
     }
   }
 

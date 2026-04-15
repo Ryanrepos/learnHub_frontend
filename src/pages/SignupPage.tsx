@@ -1,24 +1,25 @@
-import { useState } from 'react';
 import { Form, Input, Checkbox, Button } from 'antd';
-import { UserOutlined, MailOutlined, GoogleOutlined, AppleOutlined, FacebookOutlined } from '@ant-design/icons';
-import { StyledSignUp } from './SignupPage';
-import signup from '../assets/register.png';
+import { UserOutlined, MailOutlined, LockOutlined, GoogleOutlined, AppleOutlined, FacebookOutlined } from '@ant-design/icons';
+import signupImg from '../assets/login.png';
 import { useNavigate } from 'react-router-dom';
-
+import { useRegister } from '../composables/useLogin';
+import { StyledSignUp } from './SignupPage';
 
 export default function SignUpPage() {
-  const [role, setRole] = useState<'student' | 'instructor'>('student');
   const navigate = useNavigate();
+  const { isPending, mutate } = useRegister();
 
   const onFinish = (values: any) => {
-    console.log('Registration data:', { ...values, role });
+    // values endi to'g'ridan-to'g'ri backend kutilganidek: 
+    // { firstName, lastName, email, password }
+    mutate(values);
   };
 
   return (
     <StyledSignUp>
       {/* Chap taraf - Banner */}
       <div className="auth-banner">
-         <img src={signup} alt="Sign Up Illustration" />
+         <img src={signupImg} alt="Sign Up Illustration" />
       </div>
 
       {/* O'ng taraf - Forma */}
@@ -26,52 +27,57 @@ export default function SignUpPage() {
         <div className="form-wrapper">
           <h1 className="signup-title">Create Your Account</h1>
 
-          {/* Role Switcher */}
-          <div className="role-switcher">
-            <button 
-              className={`role-btn ${role === 'student' ? 'active' : ''}`}
-              onClick={() => setRole('student')}
-            >
-              Student
-            </button>
-            <button 
-              className={`role-btn ${role === 'instructor' ? 'active' : ''}`}
-              onClick={() => setRole('instructor')}
-            >
-              Instructor
-            </button>
-          </div>
-
           <Form layout="vertical" onFinish={onFinish}>
-            <Form.Item
-              label="Full name"
-              name="fullName"
-              rules={[{ required: true, message: 'Iltimos, ismingizni kiriting!' }]}
-            >
-              <Input prefix={<UserOutlined />} placeholder="Enter full name" />
-            </Form.Item>
+            
+            {/* Ism va Familiya qatori */}
+            <div className="name-row">
+              <Form.Item
+                label="First name"
+                name="firstName"
+                style={{ flex: 1 }}
+                rules={[{ required: true, message: 'Ismingizni kiriting!' }]}
+              >
+                <Input prefix={<UserOutlined />} placeholder="John" />
+              </Form.Item>
+
+              <Form.Item
+                label="Last name"
+                name="lastName"
+                style={{ flex: 1 }}
+                rules={[{ required: true, message: 'Familiyangizni kiriting!' }]}
+              >
+                <Input prefix={<UserOutlined />} placeholder="Doe" />
+              </Form.Item>
+            </div>
 
             <Form.Item
               label="Email"
               name="email"
-              rules={[{ required: true, type: 'email', message: 'Iltimos, to`g`ri email kiriting!' }]}
+              rules={[{ required: true, type: 'email', message: 'To\'g\'ri email kiriting!' }]}
             >
               <Input prefix={<MailOutlined />} placeholder="Enter email address" />
             </Form.Item>
 
-            <Form.Item 
-              name="agreement" 
-              valuePropName="checked"
-              rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject('Shartlarga rozilik bildirishingiz kerak') }]}
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                { required: true, message: 'Parol kiriting!' },
+                { min: 6, message: 'Parol kamida 6 belgidan iborat bo\'lishi kerak!' }
+              ]}
             >
-              <Checkbox>
-                I agree to the <span style={{color: '#000', fontWeight: 600}}>Terms of Service & Privacy Policy</span>
-              </Checkbox>
+              <Input.Password prefix={<LockOutlined />} placeholder="Create a password" />
             </Form.Item>
 
+           
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="next-btn">
-                Next
+              <Button 
+                type="primary" 
+                htmlType="submit" 
+                className="next-btn"
+                loading={isPending}
+              >
+                Create Account
               </Button>
             </Form.Item>
           </Form>

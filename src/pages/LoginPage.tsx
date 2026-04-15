@@ -17,7 +17,6 @@ export default function LoginPage() {
 
   return (
     <StyledLogin>
-      <div>{isPending ? 'LOADING...' : 'Not loading'}</div>
       {/* Chap taraf - Banner */}
       <div className="auth-banner">
         {/* Bu yerga rasmni import qilib qo'yasan */}
