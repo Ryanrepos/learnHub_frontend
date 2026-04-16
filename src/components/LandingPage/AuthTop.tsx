@@ -1,7 +1,10 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { StyledAuthTop } from "./AuthTop";
+import { useNavigate } from 'react-router-dom';
 
 export function AuthTop() {
+    const navigate = useNavigate();
+
     return (
         <StyledAuthTop>
             <div className="hero-section">
@@ -24,8 +27,10 @@ export function AuthTop() {
                             </div>
 
                             <div className="nav-actions">
-                                <span className="login-link">Login</span>
-                                <button className="btn-yellow">Sign up</button>
+                                <span onClick={() => navigate('/auth/login')} className="login-link">Login</span>
+                                <button onClick={() => navigate('/auth/register')} className="btn-yellow">
+                                    Sign up
+                                </button>
                             </div>
                         </div>
                     </nav>
@@ -38,7 +43,7 @@ export function AuthTop() {
                         <p className="hero-subtitle">
                             Gain in-demand knowledge, grow your career, and learn from top instructors, anytime, anywhere.
                         </p>
-                        <button className="btn-yellow btn-primary">
+                        <button onClick={() => navigate('/auth/register')} className="btn-yellow btn-primary">
                             Get Started <ArrowRightOutlined />
                         </button>
                     </div>

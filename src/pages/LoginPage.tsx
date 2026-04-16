@@ -46,9 +46,6 @@ export default function LoginPage() {
             </Form.Item>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember Me</Checkbox>
-              </Form.Item>
               <span className="forgot-password">Forgot Password?</span>
             </div>
 

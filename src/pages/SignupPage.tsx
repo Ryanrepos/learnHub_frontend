@@ -9,11 +9,16 @@ export default function SignUpPage() {
   const navigate = useNavigate();
   const { isPending, mutate } = useRegister();
 
-  const onFinish = (values: any) => {
-    // values endi to'g'ridan-to'g'ri backend kutilganidek: 
-    // { firstName, lastName, email, password }
-    mutate(values);
+const onFinish = (values: any) => {
+  const payload = {
+    firstName: values.firstName,
+    lastName: values.lastName,
+    email: values.email,
+    password: values.password
   };
+  
+  mutate(payload);
+};
 
   return (
     <StyledSignUp>
@@ -71,7 +76,7 @@ export default function SignUpPage() {
 
            
             <Form.Item>
-              <Button 
+              <Button
                 type="primary" 
                 htmlType="submit" 
                 className="next-btn"

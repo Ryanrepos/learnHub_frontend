@@ -6,12 +6,6 @@ export const login = async (data: { email: string; password: string }) => {
     return res
 }
 
-// export const register = async (data: { fullName: string; email: string; password: string; }) => {
-//     const res = axios.post("http://localhost:3000/auth/register", data)
-//     console.log("register res:", res)
-//     return res
-// }
-
 // Axios instance - har safar localhost deb yozmaslik uchun
 const api = axios.create({
     baseURL: "http://localhost:3000",
