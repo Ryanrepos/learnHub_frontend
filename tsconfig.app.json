@@ -8,6 +8,11 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
 
+    /* ALIAS (PATH) SOZLAMALARI */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

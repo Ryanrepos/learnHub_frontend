@@ -1,9 +1,37 @@
-import { ArrowRightOutlined } from '@ant-design/icons';
-import { StyledAuthTop } from "./AuthTop";
+import { ArrowRightOutlined, UserOutlined, LogoutOutlined, DashboardOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { Avatar, Dropdown, type MenuProps, message } from 'antd';
+import { useAuthStore } from '../../store/auth.store';
+import { StyledAuthTop } from './AuthTop';
 
 export function AuthTop() {
     const navigate = useNavigate();
+    const { user, logout } = useAuthStore();
+
+    const handleLogout = () => {
+        logout();
+        message.success("Tizimdan chiqdingiz");
+        navigate('/');
+    };
+
+    const userMenuItems: MenuProps['items'] = [
+        {
+            key: 'dashboard',
+            label: 'Dashboard',
+            icon: <DashboardOutlined />,
+            onClick: () => navigate('/dashboard')
+        },
+        {
+            type: 'divider',
+        },
+        {
+            key: 'logout',
+            danger: true,
+            label: 'Log out',
+            icon: <LogoutOutlined />,
+            onClick: handleLogout
+        },
+    ];
 
     return (
         <StyledAuthTop>
@@ -12,8 +40,8 @@ export function AuthTop() {
 
                     {/* Navbar */}
                     <nav className="navbar">
-                        <div className="container" style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 0}}>
-                            <div className="logo">EdA</div>
+                        <div className="container" style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: "0 20px" }}>
+                            <div className="logo" onClick={() => navigate('/')}>LearnHub</div>
 
                             <div className="search-box">
                                 <input
@@ -27,10 +55,24 @@ export function AuthTop() {
                             </div>
 
                             <div className="nav-actions">
-                                <span onClick={() => navigate('/auth/login')} className="login-link">Login</span>
-                                <button onClick={() => navigate('/auth/register')} className="btn-yellow">
-                                    Sign up
-                                </button>
+                                {user ? (
+                                    <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" arrow>
+                                        <div className="user-profile-trigger">
+                                            <span className="user-name">{user.firstName}</span>
+                                            <Avatar
+                                                style={{ backgroundColor: '#FFD700', color: '#000' }}
+                                                icon={<UserOutlined />}
+                                            />
+                                        </div>
+                                    </Dropdown>
+                                ) : (
+                                    <>
+                                        <span onClick={() => navigate('/auth/login')} className="login-link">Login</span>
+                                        <button onClick={() => navigate('/auth/register')} className="btn-yellow">
+                                            Sign up
+                                        </button>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </nav>
@@ -43,8 +85,11 @@ export function AuthTop() {
                         <p className="hero-subtitle">
                             Gain in-demand knowledge, grow your career, and learn from top instructors, anytime, anywhere.
                         </p>
-                        <button onClick={() => navigate('/auth/register')} className="btn-yellow btn-primary">
-                            Get Started <ArrowRightOutlined />
+                        <button
+                            onClick={() => navigate(user ? '/student-home' : '/auth/register')}
+                            className="btn-yellow btn-primary"
+                        >
+                            {user ? 'Go to Dashboard' : 'Get Started'} <ArrowRightOutlined />
                         </button>
                     </div>
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import {StyledFooter} from "./CommonFooter.ts";
 
@@ -10,7 +9,7 @@ export function CommonFooter() {
 
                     {/* Brand & Newsletter */}
                     <div className="brand-section">
-                        <span className="logo">EdA</span>
+                        <span className="logo">LearnHub</span>
                         <p className="tagline">Get started now try our product</p>
                         <div className="newsletter">
                             <input type="email" placeholder="Enter your email here" />

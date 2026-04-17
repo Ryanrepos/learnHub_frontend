@@ -24,7 +24,6 @@ export const StyledAuthTop = styled.div`
     flex-direction: column;
   }
 
-  /* Navbar qismi */
   .navbar {
     position: absolute;
     top: 0;
@@ -41,13 +40,13 @@ export const StyledAuthTop = styled.div`
     font-size: 28px;
     font-weight: 800;
     letter-spacing: 1px;
+    cursor: pointer;
   }
 
   .search-box {
     display: flex;
     align-items: center;
     background: #FFFFFF;
-    backdrop-filter: blur(10px);
     padding: 6px 10px 6px 20px;
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -56,18 +55,43 @@ export const StyledAuthTop = styled.div`
   .search-input {
     background: transparent;
     border: none;
-    color: white;
+    color: #000;
     outline: none;
-    width: 400px;
-    &::placeholder { color: #000 }
+    width: 350px;
+    &::placeholder { color: #9ca3af; }
   } 
-    .nav-actions {
-        display: flex;
-        align-items: center;
-        gap: 20px;
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* User Profile UI */
+  .user-profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 16px;
+    border-radius: 30px;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
 
-  /* Kontent qismi */
+    .user-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: white;
+      @media (max-width: 480px) { display: none; }
+    }
+  }
+
   .hero-content {
     margin-top: 60px;
     text-align: center;
@@ -91,7 +115,6 @@ export const StyledAuthTop = styled.div`
     margin-bottom: 40px;
   }
 
-  /* Tugmalar */
   .btn-yellow {
     background: #FFD700;
     color: #000;
@@ -123,22 +146,20 @@ export const StyledAuthTop = styled.div`
   }
 
   .login-link {
-      background: #FFF;
-      color: #000;
-      border: none;
-      padding: 12px 30px;
-      font-size: 16px;
-      font-weight: 700;
-      border-radius: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.3s ease;
+    background: #FFF;
+    color: #000;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover { background: #f3f4f6; }
   }
 
   @media (max-width: 768px) {
     .hero-title { font-size: 36px; }
-    .search-box { display: none; } /* Mobilda qidiruvni yashirish yoki boshqa ko'rinish */
+    .search-box { display: none; }
+    .navbar { padding: 20px 15px; }
   }
 `;

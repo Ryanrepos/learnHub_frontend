@@ -1,4 +1,4 @@
-import { Form, Input, Checkbox, Button } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { MailOutlined, LockOutlined, GoogleOutlined, AppleOutlined, FacebookOutlined } from '@ant-design/icons';
 import { StyledLogin } from './LoginPage';
 import loginImg from '../assets/login.png';
