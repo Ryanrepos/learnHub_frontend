@@ -1,32 +1,27 @@
-import React from "react";
 import { StyledWelcomeHero } from "./WelcomeHero.ts";
 import headerImage from "@/assets/headerImage.png";
+import { useGetMe } from "@/composables/useLogin.ts"; 
 
-interface WelcomeHeroProps {
-  userName?: string;
-  courseName?: string;
-}
+export default function WelcomeHero() {
+  const { data, isLoading } = useGetMe();
+  const user = data?.data;
 
-export default function WelcomeHero({
-  userName = "John",
-  courseName = "UI/UX and AI",
-}: WelcomeHeroProps) {
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <StyledWelcomeHero>
-      {/* Matn qismi */}
       <div className="content-section">
         <h1 className="welcome-title">
           Welcome back, <br />
-          {userName}!
+          {user?.firstName}!
         </h1>
         <p className="welcome-subtitle">
-          Ready to continue your journey in {courseName}? Let's keep learning
+          Ready to continue your journey? Let's keep learning
           and building your future—one course at a time.
         </p>
         <button className="resume-btn">Resume My Course</button>
       </div>
 
-      {/* Rasm qismi */}
       <div className="image-section">
         <div className="yellow-circle">
           <img

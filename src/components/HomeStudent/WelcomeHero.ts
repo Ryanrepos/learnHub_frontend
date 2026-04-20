@@ -61,7 +61,6 @@ export const StyledWelcomeHero = styled.div`
     }
   }
 
-  /* Image Section with Yellow Circle */
   .image-section {
     flex: 1;
     display: flex;
@@ -91,7 +90,7 @@ export const StyledWelcomeHero = styled.div`
     }
 
     .hero-illustration {
-      width: 110%; /* Doiradan biroz chiqib turishi uchun */
+      width: 110%;
       height: auto;
       z-index: 2;
     }

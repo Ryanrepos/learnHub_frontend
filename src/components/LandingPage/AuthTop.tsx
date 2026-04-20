@@ -2,14 +2,21 @@ import { ArrowRightOutlined, UserOutlined, LogoutOutlined, DashboardOutlined } f
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Dropdown, type MenuProps, message } from 'antd';
 import { useAuthStore } from '../../store/auth.store';
+import { useGetMe } from '../../composables/useLogin';
 import { StyledAuthTop } from './AuthTop';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function AuthTop() {
     const navigate = useNavigate();
-    const { user, logout } = useAuthStore();
+    const { logout } = useAuthStore();
+    const { data } = useGetMe();
+    const user = data?.data; 
+    const queryClient = useQueryClient(); 
 
-    const handleLogout = () => {
+
+   const handleLogout = () => {
         logout();
+        queryClient.clear(); // ✅ barcha cache tozalanadi
         message.success("Tizimdan chiqdingiz");
         navigate('/');
     };
@@ -38,7 +45,6 @@ export function AuthTop() {
             <div className="hero-section">
                 <div className="container">
 
-                    {/* Navbar */}
                     <nav className="navbar">
                         <div className="container" style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: "0 20px" }}>
                             <div className="logo" onClick={() => navigate('/')}>LearnHub</div>
@@ -77,7 +83,6 @@ export function AuthTop() {
                         </div>
                     </nav>
 
-                    {/* Hero Content */}
                     <div className="hero-content">
                         <h1 className="hero-title">
                             Unlock Your Future with <br /> World-Class Learning

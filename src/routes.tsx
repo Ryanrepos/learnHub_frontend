@@ -6,6 +6,8 @@ import SignUpPage from "./pages/SignupPage.tsx";
 import VerifyPage from "./pages/VerifyPage.tsx";
 import HomeStudent from './pages/HomeStudent.tsx';
 import { LandingPage } from './pages/LandingPage.tsx';
+import Profile from './pages/Profile.tsx';
+import StudentDashboard from './pages/StudentDashboard.tsx';
 
 export const router = createBrowserRouter([
     {
@@ -45,6 +47,14 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <HomeStudent />,
+            },
+            {
+                path: 'update-profile',
+                element: <Profile />,
+            },
+            {
+                path: 'dashboard',
+                element: <StudentDashboard />,
             }
         ],
 
