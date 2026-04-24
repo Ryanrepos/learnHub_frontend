@@ -24,7 +24,6 @@ export default function Dashboard() {
     const user = meData?.data;
     const { data: coursesData, isLoading } = useGetMyCourses();
     const courses = coursesData?.data || [];
-
     if (isLoading) return <div>Loading...</div>;
 
     return (

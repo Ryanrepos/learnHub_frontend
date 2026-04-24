@@ -8,6 +8,7 @@ import HomeStudent from './pages/HomeStudent.tsx';
 import { LandingPage } from './pages/LandingPage.tsx';
 import Profile from './pages/Profile.tsx';
 import StudentDashboard from './pages/StudentDashboard.tsx';
+import MyCourses from './components/CoursesStudent/MyCourses.tsx';
 
 export const router = createBrowserRouter([
     {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
             {
                 path: 'dashboard',
                 element: <StudentDashboard />,
+            },
+            {
+                path: 'my-courses',
+                element: <MyCourses />,
             }
         ],
 

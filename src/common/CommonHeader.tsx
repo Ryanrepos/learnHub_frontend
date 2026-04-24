@@ -73,7 +73,7 @@ export default function CommonHeader() {
                 <div className="nav-items">
                     <span onClick={() => navigate('/')}>Home</span>
                     <span onClick={() => navigate('/student-home/dashboard')}>Dashboard</span>
-                    <span className="active" onClick={() => navigate('/courses')}>My Courses</span>
+                    <span className="active" onClick={() => navigate('/student-home/my-courses')}>My Courses</span>
                 </div>
 
                 <div className="user-actions">
