@@ -73,7 +73,11 @@ export const StyledHeader = styled.header`
             font-weight: 500;
             color: #6b7280;
             cursor: pointer;
-            &.active { color: #000; font-weight: 700; }
+            &.active { color: #1a1a1a;; 
+                background-color: #FFD700;
+                padding: 4px 12px;
+                border-radius: 20px;
+            }
         }
     }
 

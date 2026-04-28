@@ -1,6 +1,6 @@
 import { StyledHeader } from './CommonHeader.ts';
 import { SearchOutlined, ArrowRightOutlined, BellOutlined, CaretDownOutlined, LogoutOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Dropdown, type MenuProps, message } from 'antd';
 import { useAuthStore } from '../store/auth.store.ts';
 import { useGetMe, useUpdateAvatar } from '../composables/useLogin.ts';
@@ -9,6 +9,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 export default function CommonHeader() {
     const navigate = useNavigate();
+    const location = useLocation();
     const { logout } = useAuthStore();
     const { data } = useGetMe();
     const user = data?.data;
@@ -17,12 +18,18 @@ export default function CommonHeader() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const queryClient = useQueryClient();
 
+    const navItems = [
+        { label: 'Home', path: '/' },
+        { label: 'Dashboard', path: '/student-home/dashboard' },
+        { label: 'My Courses', path: '/student-home/my-courses' },
+    ];
+
     const handleLogout = () => {
-    logout();
-    queryClient.clear();
-    message.success("Tizimdan chiqdingiz");
-    navigate('/');
-};
+        logout();
+        queryClient.clear();
+        message.success("Tizimdan chiqdingiz");
+        navigate('/');
+    };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -71,9 +78,15 @@ export default function CommonHeader() {
                 </div>
 
                 <div className="nav-items">
-                    <span onClick={() => navigate('/')}>Home</span>
-                    <span onClick={() => navigate('/student-home/dashboard')}>Dashboard</span>
-                    <span className="active" onClick={() => navigate('/student-home/my-courses')}>My Courses</span>
+                    {navItems.map(({ label, path }) => (
+                        <span
+                            key={path}
+                            className={location.pathname === path ? 'active' : ''}
+                            onClick={() => navigate(path)}
+                        >
+                            {label}
+                        </span>
+                    ))}
                 </div>
 
                 <div className="user-actions">

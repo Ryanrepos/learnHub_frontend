@@ -1,6 +1,8 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
 import {StyledFooter} from "./CommonFooter.ts";
 
+const years = new Date().getFullYear();
+
 export function CommonFooter() {
     return (
         <StyledFooter>
@@ -47,7 +49,7 @@ export function CommonFooter() {
 
                 {/* Bottom Bar */}
                 <div className="footer-bottom">
-                    <p>© 2026 EdA. All rights reserved.</p>
+                    <p>© {years} LearnHub. All rights reserved.</p>
                 </div>
             </div>
         </StyledFooter>

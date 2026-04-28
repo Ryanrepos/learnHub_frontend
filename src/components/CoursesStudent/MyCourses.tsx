@@ -11,6 +11,7 @@ export default function MyCourses() {
     const navigate = useNavigate();
     const { data: coursesData, isLoading } = useGetMyCourses();
     const courses = coursesData?.data || [];
+    console.log("courses:", courses)
     const [filter, setFilter] = useState('all');
     const [expandedCourse, setExpandedCourse] = useState<string | null>(null);
 

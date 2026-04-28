@@ -13,6 +13,7 @@ export default function CourseSections({ courseId, status }: CourseSectionsProps
     const navigate = useNavigate();
     const { data: sectionsData, isLoading } = useSections(courseId);
     const sections = sectionsData?.data?.items || [];
+    console.log("Sections data:", sections); // Debug log
 
     if (isLoading) return <div style={{ padding: '16px' }}>Loading sections...</div>;
     if (!sections.length) return <div style={{ padding: '16px' }}>No sections found.</div>;
@@ -22,7 +23,7 @@ export default function CourseSections({ courseId, status }: CourseSectionsProps
             {sections.map((section: any) => (
                 <div key={section.id} className="section-item">
                     <div className="section-info">
-                        <Text strong>{section.title}</Text>
+                        <Text strong>Section {section.order_number}: {section.title}</Text>
                         <Text type="secondary" style={{ fontSize: 13 }}>
                             {section.progress || 0}% Complete
                         </Text>
@@ -41,7 +42,7 @@ export default function CourseSections({ courseId, status }: CourseSectionsProps
                             fontWeight: 700,
                             minWidth: 80,
                         }}
-                        onClick={() => navigate(`/sections/${section.id}`)}
+                        onClick={() => navigate(`/student-home/sections/${section.id}`)}
                     >
                         {status === 'completed' ? 'View'
                             : status === 'in_progress' ? 'Resume'

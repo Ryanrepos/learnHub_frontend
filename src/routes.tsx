@@ -9,6 +9,7 @@ import { LandingPage } from './pages/LandingPage.tsx';
 import Profile from './pages/Profile.tsx';
 import StudentDashboard from './pages/StudentDashboard.tsx';
 import MyCourses from './components/CoursesStudent/MyCourses.tsx';
+import LessonList from './components/CoursesStudent/LessonList.tsx';
 
 export const router = createBrowserRouter([
     {
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
             {
                 path: 'my-courses',
                 element: <MyCourses />,
+            },
+            {
+                path: 'sections/:sectionId',
+                element: <LessonList />,
             }
         ],
 

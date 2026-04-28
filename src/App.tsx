@@ -1,6 +1,14 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createGlobalStyle } from "styled-components";
+
+
+export const GlobalStyle = createGlobalStyle`
+    * {
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    }
+`;
 
 // Global sozlamalar bilan QueryClient
 const queryClient = new QueryClient({
@@ -14,9 +22,12 @@ const queryClient = new QueryClient({
 
 const App = () => {
   return (
+   <>
+    <GlobalStyle />
     <QueryClientProvider client={queryClient}>  
       <RouterProvider router={router} />
     </QueryClientProvider>
+   </>
   );
 };
 
