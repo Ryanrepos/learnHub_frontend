@@ -1,26 +1,31 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Menu, Card, Button, Space, Spin } from "antd";
-import { PlaySquareOutlined, FileTextOutlined } from "@ant-design/icons";
+import { PlaySquareOutlined, FileTextOutlined, DownOutlined } from "@ant-design/icons";
 import { useLessonsBySections } from "../../composables/useSections";
+import { useSections } from "../../composables/useSections";
 import { StyledLessonList } from "./LessonList.ts";
+import { useState } from "react";
 
 const { Title, Text } = Typography;
 
 export default function LessonList() {
-    const { sectionId } = useParams<{ sectionId: string }>();
-    const { data: lessonsData, isLoading } = useLessonsBySections(sectionId!);
-    console.log("Full API Response Object:", lessonsData);
+    const { sectionId, courseId } = useParams<{ sectionId: string; courseId: string }>();
+    const navigate = useNavigate();
+
+    const { data: lessonsData, isLoading: lessonsLoading } = useLessonsBySections(sectionId!);
+    const { data: sectionsData, isLoading: sectionsLoading } = useSections(courseId!);
+
     const lessons = lessonsData?.data?.items || [];
-    console.log("Fetched lessons:", lessons);
+    const sections = sectionsData?.data?.items || [];
 
-    // Mock data for the sidebar modules (In a real app, fetch these from course info)
-    const modules = [
-        { key: '1', label: 'Lesson 1' },
-        { key: '2', label: 'Lesson 2' },
-        { key: '3', label: 'Lesson 3' },
-    ];
+    const currentSection = sections.find((s: any) => s.id === sectionId);
 
-    if (isLoading) {
+    const sidebarItems = sections.map((section: any) => ({
+        key: section.id,
+        label: section.title,
+    }));
+
+    if (lessonsLoading || sectionsLoading) {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', padding: '100px' }}>
                 <Spin size="large" />
@@ -30,62 +35,72 @@ export default function LessonList() {
 
     return (
         <StyledLessonList>
-            {/* Sidebar Navigation */}
+            {/* Sidebar */}
             <div className="sidebar">
                 <Title level={4} className="course-title">
-                    {lessons[0]?.title || 'Course Title'}
+                    {currentSection?.title || 'Course'}
                 </Title>
-                
+
                 <div>
-                    <Text className="nav-section-title">Course Material</Text>
+                    <div className="nav-section-header">
+                        <Text className="nav-section-title">Courses Material</Text>
+                        <DownOutlined style={{ fontSize: 12, color: '#8c8c8c' }} />
+                    </div>
                     <Menu
                         mode="inline"
-                        defaultSelectedKeys={['1']}
+                        selectedKeys={[sectionId!]}
                         className="module-menu"
-                        items={modules}
-                    />
+                        items={sidebarItems}
+                        onClick={() => navigate(`/student-home/lessons/${lessons.id}`)}                    />
                 </div>
             </div>
 
-            {/* Main Content Area */}
+            {/* Main Content */}
             <div className="content-area">
                 <div className="content-header">
                     <Title level={2} className="module-header-title">
-                        {lessons[0]?.title || 'Course Title'}
+                        {currentSection?.title || 'Section'}
                     </Title>
                     <Text className="module-stats">
-                        {lessons.length} Items • 40 minutes • 1 quiz
+                        {lessons.length} Items • {lessons.reduce((acc: number, l: any) => acc + (l.duration_sec || 0), 0)} min
                     </Text>
                 </div>
 
                 <div className="lessons-container">
-                    {lessons.map((lesson: any) => (
-                        <Card key={lesson.id} className="lesson-card">
-                            <div className="lesson-row">
-                                <div className="lesson-info-group">
-                                    <div className="icon-wrapper">
-                                        {lesson.type === 'quiz' ? (
-                                            <FileTextOutlined style={{ color: '#000' }} />
-                                        ) : (
-                                            <PlaySquareOutlined style={{ color: '#000' }} />
-                                        )}
+                    {lessons.length === 0 ? (
+                        <Text type="secondary">No lessons found.</Text>
+                    ) : (
+                        lessons.map((lesson: any) => (
+                            <Card key={lesson.id} className="lesson-card">
+                                <div className="lesson-row">
+                                    <div className="lesson-info-group">
+                                        <div className="icon-wrapper">
+                                            {lesson.type === 'quiz' ? (
+                                                <FileTextOutlined style={{ color: '#000' }} />
+                                            ) : (
+                                                <PlaySquareOutlined style={{ color: '#000' }} />
+                                            )}
+                                        </div>
+                                        <Space direction="vertical" size={0}>
+                                            <Text strong style={{ fontSize: 16 }}>
+                                                {lesson.title}
+                                            </Text>
+                                            <Text type="secondary" style={{ fontSize: 13 }}>
+                                                {lesson.type === 'quiz' ? 'Quiz' : 'Video'} • {lesson.duration_sec} min
+                                            </Text>
+                                        </Space>
                                     </div>
-                                    <Space direction="vertical" size={0}>
-                                        <Text strong style={{ fontSize: 16 }}>
-                                            {lesson.title}
-                                        </Text>
-                                        <Text type="secondary" style={{ fontSize: 13 }}>
-                                            {lesson.type === 'quiz' ? 'Quiz' : 'Video'} • {lesson.duration_sec} min
-                                        </Text>
-                                    </Space>
-                                </div>
-                                
-                                <Button className="open-btn">
+
+                               <Button
+                                    className="open-btn"
+                                    onClick={() => navigate(`/student-home/lessons/${lesson.id}`)}
+                                >
                                     Open
                                 </Button>
-                            </div>
-                        </Card>
-                    ))}
+                                </div>
+                            </Card>
+                        ))
+                    )}
                 </div>
             </div>
         </StyledLessonList>

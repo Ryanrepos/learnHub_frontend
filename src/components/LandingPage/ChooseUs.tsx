@@ -37,7 +37,6 @@ export function ChooseUs() {
                                 <h3>{item.title}</h3>
                                 <p>{item.description}</p>
                             </div>
-
                             <button className="arrow-circle">
                                 <ArrowRightOutlined />
                             </button>

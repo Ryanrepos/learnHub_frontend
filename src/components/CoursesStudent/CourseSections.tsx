@@ -42,7 +42,7 @@ export default function CourseSections({ courseId, status }: CourseSectionsProps
                             fontWeight: 700,
                             minWidth: 80,
                         }}
-                        onClick={() => navigate(`/student-home/sections/${section.id}`)}
+                       onClick={() => navigate(`/student-home/sections/${courseId}/${section.id}`)}
                     >
                         {status === 'completed' ? 'View'
                             : status === 'in_progress' ? 'Resume'

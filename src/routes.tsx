@@ -10,6 +10,7 @@ import Profile from './pages/Profile.tsx';
 import StudentDashboard from './pages/StudentDashboard.tsx';
 import MyCourses from './components/CoursesStudent/MyCourses.tsx';
 import LessonList from './components/CoursesStudent/LessonList.tsx';
+import LessonDetail from './components/CoursesStudent/LessonDetail.tsx';
 
 export const router = createBrowserRouter([
     {
@@ -62,9 +63,14 @@ export const router = createBrowserRouter([
                 path: 'my-courses',
                 element: <MyCourses />,
             },
+           // In router.tsx
             {
-                path: 'sections/:sectionId',
+                path: 'sections/:courseId/:sectionId', // Add :courseId here
                 element: <LessonList />,
+            },
+            {
+                path: 'lessons/:lessonId',
+                element: <LessonDetail />,
             }
         ],
 
