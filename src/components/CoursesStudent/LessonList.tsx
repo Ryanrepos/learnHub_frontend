@@ -4,7 +4,6 @@ import { PlaySquareOutlined, FileTextOutlined, DownOutlined } from "@ant-design/
 import { useLessonsBySections } from "../../composables/useSections";
 import { useSections } from "../../composables/useSections";
 import { StyledLessonList } from "./LessonList.ts";
-import { useState } from "react";
 
 const { Title, Text } = Typography;
 

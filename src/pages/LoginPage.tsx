@@ -8,7 +8,7 @@ import { useLogin } from '../composables/useLogin';
 export default function LoginPage() {
   const navigate = useNavigate();
 
-  const { isPending, mutate } = useLogin()
+  const { mutate } = useLogin()
 
   const onFinish = (values: { email: string, password: string }) => {
     mutate(values)
