@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useGetMyCourses } from "../../composables/useCourses";
 import { useNavigate } from "react-router-dom";
-import { Card, Tag, Progress, Button, Select, Space, Typography, Badge } from "antd";
+// 1. Bu yerga Empty komponentini qo'shdik
+import { Card, Tag, Progress, Button, Select, Space, Typography, Badge, Empty } from "antd"; 
 import { StyledMyCourses } from "./MyCourses.ts";
 import CourseSections from "./CourseSections";
 
@@ -98,73 +99,84 @@ export default function MyCourses() {
             </div>
 
             {/* Course List */}
-            {filteredCourses.map((enrollment: any) => (
-                <Card
-                    key={enrollment.course?.id}
-                    className="course-item"
-                    loading={isLoading}
-                >
-                    {/* Header */}
-                    <div
-                        className="course-header"
-                        onClick={() => setExpandedCourse(
-                            expandedCourse === enrollment.course?.id
-                                ? null
-                                : enrollment.course?.id
-                        )}
+            {!isLoading && filteredCourses.length === 0 ? (
+                <Empty 
+                    style={{ marginTop: 40 }}
+                    description={
+                        <Text type="secondary" style={{ fontSize: 16 }}>
+                            No courses available
+                        </Text>
+                    } 
+                />
+            ) : (
+                filteredCourses.map((enrollment: any) => (
+                    <Card
+                        key={enrollment.course?.id}
+                        className="course-item"
+                        loading={isLoading}
                     >
-                        <div className="course-title-row">
-                            <Tag color={getStatusColor(enrollment.status)}>
-                                {getStatusLabel(enrollment.status)}
-                            </Tag>
-                            <Text strong style={{ fontSize: 18 }}>
-                                {enrollment.course?.title}
-                            </Text>
-                            <Text type="secondary" style={{ fontSize: 13 }}>
-                                {enrollment.course?.level} • {enrollment.course?.total_students} students
-                            </Text>
+                        {/* Header */}
+                        <div
+                            className="course-header"
+                            onClick={() => setExpandedCourse(
+                                expandedCourse === enrollment.course?.id
+                                    ? null
+                                    : enrollment.course?.id
+                            )}
+                        >
+                            <div className="course-title-row">
+                                <Tag color={getStatusColor(enrollment.status)}>
+                                    {getStatusLabel(enrollment.status)}
+                                </Tag>
+                                <Text strong style={{ fontSize: 18 }}>
+                                    {enrollment.course?.title}
+                                </Text>
+                                <Text type="secondary" style={{ fontSize: 13 }}>
+                                    {enrollment.course?.level} • {enrollment.course?.total_students} students
+                                </Text>
+                            </div>
+                            <Button type="text" className="toggle-btn">
+                                {expandedCourse === enrollment.course?.id ? '↑' : '↓'}
+                            </Button>
                         </div>
-                        <Button type="text" className="toggle-btn">
-                            {expandedCourse === enrollment.course?.id ? '↑' : '↓'}
-                        </Button>
-                    </div>
 
-                    {/* Completion Banner */}
-                    {enrollment.status === 'completed' && (
-                        <div className="completion-banner">
-                            <Text style={{ color: '#166534', fontWeight: 500 }}>
-                                🎉 Congratulations on completing {enrollment.course?.title}!
-                            </Text>
-                            <Space>
-                                <Button
-                                    style={{ background: '#FFD700', border: 'none', borderRadius: 30, fontWeight: 700 }}
-                                    onClick={() => navigate(`/courses/${enrollment.course?.id}`)}
-                                >
-                                    View
-                                </Button>
-                                <Button style={{ borderRadius: 30 }}>Add to LinkedIn</Button>
-                            </Space>
+                        {/* Completion Banner */}
+                        {enrollment.status === 'completed' && (
+                            <div className="completion-banner">
+                                <Text style={{ color: '#166534', fontWeight: 500 }}>
+                                    🎉 Congratulations on completing {enrollment.course?.title}!
+                                </Text>
+                                <Space>
+                                    <Button
+                                        style={{ background: '#FFD700', border: 'none', borderRadius: 30, fontWeight: 700 }}
+                                        onClick={() => navigate(`/courses/${enrollment.course?.id}`)}
+                                    >
+                                        View
+                                    </Button>
+                                    <Button style={{ borderRadius: 30 }}>Add to LinkedIn</Button>
+                                </Space>
+                            </div>
+                        )}
+
+                        {/* Progress */}
+                        <div className="progress-row">
+                            <Progress
+                                percent={enrollment.progress}
+                                strokeColor={enrollment.status === 'completed' ? '#22c55e' : '#FFD700'}
+                                style={{ flex: 1 }}
+                            />
                         </div>
-                    )}
 
-                    {/* Progress */}
-                    <div className="progress-row">
-                        <Progress
-                            percent={enrollment.progress}
-                            strokeColor={enrollment.status === 'completed' ? '#22c55e' : '#FFD700'}
-                            style={{ flex: 1 }}
-                        />
-                    </div>
-
-                    {/* Sections */}
-                    {expandedCourse === enrollment.course?.id && (
-                        <CourseSections
-                            courseId={enrollment.course?.id}
-                            status={enrollment.status}
-                        />
-                    )}
-                </Card>
-            ))}
+                        {/* Sections */}
+                        {expandedCourse === enrollment.course?.id && (
+                            <CourseSections
+                                courseId={enrollment.course?.id}
+                                status={enrollment.status}
+                            />
+                        )}
+                    </Card>
+                ))
+            )}
         </StyledMyCourses>
     );
 }
