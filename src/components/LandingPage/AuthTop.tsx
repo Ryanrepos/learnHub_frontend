@@ -46,14 +46,14 @@ export function AuthTop() {
                 <div className="container">
 
                     <nav className="navbar">
-                        <div className="container" style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: "0 20px" }}>
+                        <div className="nav-inner">
                             <div className="logo" onClick={() => navigate('/')}>LearnHub</div>
 
                             <div className="search-box">
                                 <input
                                     type="text"
                                     className="search-input"
-                                    placeholder="What do you want to learn?"
+                                    placeholder="What do you want to learn today?"
                                 />
                                 <button className="btn-yellow btn-circle">
                                     <ArrowRightOutlined />
@@ -66,7 +66,7 @@ export function AuthTop() {
                                         <div className="user-profile-trigger">
                                             <span className="user-name">{user.firstName}</span>
                                             <Avatar
-                                                style={{ backgroundColor: '#FFD700', color: '#000' }}
+                                                style={{ backgroundColor: '#FFD700', color: '#0f172a' }}
                                                 icon={<UserOutlined />}
                                             />
                                         </div>
@@ -75,7 +75,7 @@ export function AuthTop() {
                                     <>
                                         <span onClick={() => navigate('/auth/login')} className="login-link">Login</span>
                                         <button onClick={() => navigate('/auth/register')} className="btn-yellow">
-                                            Sign up
+                                            Join Now
                                         </button>
                                     </>
                                 )}
@@ -85,16 +85,16 @@ export function AuthTop() {
 
                     <div className="hero-content">
                         <h1 className="hero-title">
-                            Unlock Your Future with <br /> World-Class Learning
+                            Unlock Your Potential <br /> With World-Class Skills
                         </h1>
                         <p className="hero-subtitle">
-                            Gain in-demand knowledge, grow your career, and learn from top instructors, anytime, anywhere.
+                            Join over 5 million learners worldwide. Master new skills, advance your career, and explore your passions with expert-led courses.
                         </p>
                         <button
                             onClick={() => navigate(user ? '/student-home' : '/auth/register')}
                             className="btn-yellow btn-primary"
                         >
-                            {user ? 'Go to Dashboard' : 'Get Started'} <ArrowRightOutlined />
+                            {user ? 'Continue Learning' : 'Start for Free'} <ArrowRightOutlined />
                         </button>
                     </div>
 
