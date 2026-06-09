@@ -10,7 +10,7 @@ import { useQueryClient } from '@tanstack/react-query';
 export default function CommonHeader() {
     const navigate = useNavigate();
     const location = useLocation();
-    const { logout } = useAuthStore();
+    const { logout, user: authUser } = useAuthStore();
     const { data } = useGetMe();
     const user = data?.data;
     const avatarUrl = user?.avatar_url;
@@ -23,6 +23,10 @@ export default function CommonHeader() {
         { label: 'Dashboard', path: '/student-home/dashboard' },
         { label: 'My Courses', path: '/student-home/my-courses' },
     ];
+
+    if (authUser?.role === 'admin') {
+        navItems.push({ label: 'Admin Panel', path: '/admin' });
+    }
 
     const handleLogout = () => {
         logout();

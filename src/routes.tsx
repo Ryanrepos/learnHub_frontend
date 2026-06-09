@@ -11,6 +11,12 @@ import StudentDashboard from './pages/StudentDashboard.tsx';
 import MyCourses from './components/CoursesStudent/MyCourses.tsx';
 import LessonList from './components/CoursesStudent/LessonList.tsx';
 import LessonDetail from './components/CoursesStudent/LessonDetail.tsx';
+import AdminLayout from './layouts/AdminLayout/AdminLayout.tsx';
+import AdminDashboard from './pages/Admin/AdminDashboard.tsx';
+import AdminCourses from './pages/Admin/AdminCourses.tsx';
+import AdminUsers from './pages/Admin/AdminUsers.tsx';
+import AdminCategories from './pages/Admin/AdminCategories.tsx';
+import AdminSettings from './pages/Admin/AdminSettings.tsx';
 
 export const router = createBrowserRouter([
     {
@@ -73,6 +79,32 @@ export const router = createBrowserRouter([
                 element: <LessonDetail />,
             }
         ],
+    },
 
+    {
+        path: '/admin',
+        element: <AdminLayout />,
+        children: [
+            {
+                index: true,
+                element: <AdminDashboard />,
+            },
+            {
+                path: 'courses',
+                element: <AdminCourses />,
+            },
+            {
+                path: 'users',
+                element: <AdminUsers />,
+            },
+            {
+                path: 'categories',
+                element: <AdminCategories />,
+            },
+            {
+                path: 'settings',
+                element: <AdminSettings />,
+            },
+        ],
     }
 ]);
