@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Card = styled.div`
+const Card = styled.div<{ $isClickable?: boolean }>`
     background: white;
     padding: 24px;
     border-radius: 12px;
@@ -8,6 +8,13 @@ const Card = styled.div`
     display: flex;
     align-items: center;
     gap: 16px;
+    cursor: ${props => props.$isClickable ? 'pointer' : 'default'};
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        transform: ${props => props.$isClickable ? 'translateY(-2px)' : 'none'};
+        box-shadow: ${props => props.$isClickable ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none'};
+    }
 
     .icon-wrapper {
         width: 48px;
@@ -41,11 +48,12 @@ interface StatCardProps {
     icon: React.ReactNode;
     color: string;
     bgColor: string;
+    onClick?: () => void;
 }
 
-export default function StatCard({ title, value, icon, color, bgColor }: StatCardProps) {
+export default function StatCard({ title, value, icon, color, bgColor, onClick }: StatCardProps) {
     return (
-        <Card>
+        <Card onClick={onClick} $isClickable={!!onClick}>
             <div className="icon-wrapper" style={{ color, background: bgColor }}>
                 {icon}
             </div>

@@ -1,39 +1,5 @@
 import { useAuthStore } from "@/store/auth.store";
-import axios from "axios";
-
-const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
-});
-
-api.interceptors.request.use((config) => {
-    const token = useAuthStore.getState().token;
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-    return config;
-});
-
-///// FAKE DATA
-
-const apiUrl = axios.create({
-    baseURL: "https://jsonplaceholder.typicode.com"
-});
-
-apiUrl.interceptors.request.use((config) => {
-    const token = useAuthStore.getState().token;
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-    return config;
-});
-
-export const getFakeComments = async (data: any) => {
-    const response = await apiUrl.get('/comments', { 
-        params: typeof data === 'object' ? data : { postId: data } 
-    });
-    return response.data;
-}
-
-export const createFakeUser = async (userData: any) => {
-    const response = await apiUrl.post('/users', userData);
-    return response.data;
-}
+import { api } from "./api";
 
 export const getMe = async () => {
     const response = await api.get("/auth/me");
@@ -62,3 +28,8 @@ export const updateAvatar = async (file: File) => {
 
     return response.data;
 };
+
+export const getUsersByAdmin = async (params?: { search?: string }) => {
+    const response = await api.get(`/users/get-users`, { params });
+    return response.data;
+}

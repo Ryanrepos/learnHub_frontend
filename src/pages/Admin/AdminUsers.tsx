@@ -1,6 +1,7 @@
-import { Table, Button, Space, Avatar } from 'antd';
+import { Table, Button, Space, Avatar, Tag } from 'antd';
 import { EditOutlined, DeleteOutlined, UserAddOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { useGetUsersByAdmin } from '@/composables/useUsers.ts';
 
 const HeaderActions = styled.div`
     display: flex;
@@ -10,14 +11,17 @@ const HeaderActions = styled.div`
 `;
 
 export default function AdminUsers() {
+    const { data: usersData, isLoading } = useGetUsersByAdmin();
+    const users = usersData?.data?.items || [];
+
     const columns = [
         {
             title: 'User',
             key: 'user',
             render: (_: any, record: any) => (
                 <Space>
-                    <Avatar src={record.avatar} />
-                    <span>{record.name}</span>
+                    <Avatar src={record.avatar_url || `https://i.pravatar.cc/150?u=${record.id}`} />
+                    <span>{record.firstName} {record.lastName}</span>
                 </Space>
             ),
         },
@@ -30,11 +34,27 @@ export default function AdminUsers() {
             title: 'Role',
             dataIndex: 'role',
             key: 'role',
+            render: (role: string) => (
+                <Tag color={role === 'admin' ? 'volcano' : role === 'instructor' ? 'blue' : 'green'}>
+                    {role.toUpperCase()}
+                </Tag>
+            )
         },
         {
             title: 'Joined Date',
-            dataIndex: 'joined',
+            dataIndex: 'created_at',
             key: 'joined',
+            render: (date: string) => new Date(date).toLocaleDateString(),
+        },
+        {
+            title: 'Status',
+            dataIndex: 'is_active',
+            key: 'status',
+            render: (isActive: boolean) => (
+                <Tag color={isActive ? 'success' : 'error'}>
+                    {isActive ? 'ACTIVE' : 'INACTIVE'}
+                </Tag>
+            )
         },
         {
             title: 'Action',
@@ -48,25 +68,6 @@ export default function AdminUsers() {
         },
     ];
 
-    const data = [
-        {
-            key: '1',
-            name: 'John Doe',
-            email: 'john@example.com',
-            role: 'Student',
-            joined: '2023-10-01',
-            avatar: 'https://i.pravatar.cc/150?u=john',
-        },
-        {
-            key: '2',
-            name: 'Jane Smith',
-            email: 'jane@example.com',
-            role: 'Admin',
-            joined: '2023-09-15',
-            avatar: 'https://i.pravatar.cc/150?u=jane',
-        },
-    ];
-
     return (
         <div>
             <HeaderActions>
@@ -76,7 +77,13 @@ export default function AdminUsers() {
                 </Button>
             </HeaderActions>
             
-            <Table columns={columns} dataSource={data} />
+            <Table 
+                columns={columns} 
+                dataSource={users} 
+                rowKey="id" 
+                loading={isLoading}
+            />
         </div>
     );
 }
+

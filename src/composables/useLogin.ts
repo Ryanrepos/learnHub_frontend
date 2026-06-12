@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { login, registerUser } from "../services/auth.service";
-import { updateProfile, updateAvatar, getMe, getFakeComments, createFakeUser } from "../services/user.service";
+import { updateProfile, updateAvatar, getMe } from "../services/user.service";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { useAuthStore } from "../store/auth.store";
@@ -98,23 +98,3 @@ export const useGetCategories = (search?: string) => {
         queryFn: () => getCategories(search),
     });
 };
-
-/// FAKE DATA
-export const useGetFakeComments = (data: any) => {
-    return useQuery({
-        queryKey: ["fake-comments", data],
-        queryFn: () => getFakeComments(data),
-    })
-}
-
-export const useCreateFakeUser = () => {
-    return useMutation({
-        mutationFn: (userData: any) => createFakeUser(userData),
-        onSuccess: () => {
-            alert("Fake user created successfully!");
-        },
-        onError: () => {
-            message.error("Error creating fake user!");
-        }
-    });
-}

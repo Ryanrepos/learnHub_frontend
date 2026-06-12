@@ -6,7 +6,8 @@ import { useAuthStore } from "../store/auth.store";
 import {
     getCourses,
     getCourseById,
-    type CourseParams
+    type CourseParams,
+    getCoursesByAdmin
 } from "../services/courses.service";
 import {
     getMyCourses,
@@ -74,5 +75,14 @@ export const useCheckEnrollment = (courseId: string) => {
         queryKey: ["enrollment-check", courseId],
         queryFn: () => checkEnrollment(courseId),
         enabled: !!courseId,
+    });
+};
+
+// GET COURSE BY ADMIN
+export const useGetCoursesByAdmin = (params?: CourseParams) => {
+    return useQuery({
+        queryKey: ["admin-courses", params],
+        queryFn: () => getCoursesByAdmin(params),
+        staleTime: 1000 * 60 * 5, // 5 minutes
     });
 };

@@ -1,17 +1,6 @@
 // services/courses.service.ts
 
-import axios from "axios";
-import { useAuthStore } from "../store/auth.store";
-
-const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
-});
-
-api.interceptors.request.use((config) => {
-    const token = useAuthStore.getState().token;
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-    return config;
-});
+import { api } from "./api";
 
 export interface CourseParams {
     categoryId?: string;
@@ -32,5 +21,12 @@ export const getCourses = async (params?: CourseParams) => {
 // Bitta kurs
 export const getCourseById = async (id: string) => {
     const response = await api.get(`/courses/${id}`);
+    return response.data;
+};
+
+export const getCoursesByAdmin = async (params?: CourseParams) => {
+    const response = await api.get("/courses/admin/all-courses", {
+        params,
+    });
     return response.data;
 };

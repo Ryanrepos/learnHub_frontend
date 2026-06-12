@@ -1,6 +1,10 @@
 import { UserOutlined, BookOutlined, DollarOutlined, AppstoreOutlined } from '@ant-design/icons';
 import StatCard from '../../components/Admin/Dashboard/StatCard.tsx';
 import styled from 'styled-components';
+import { useGetUsersByAdmin } from '@/composables/useUsers.ts';
+import { Alert } from 'antd';
+import { useGetCoursesByAdmin } from '@/composables/useCourses.ts';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardGrid = styled.div`
     display: grid;
@@ -23,26 +27,42 @@ const ChartPlaceholder = styled.div`
 `;
 
 export default function AdminDashboard() {
+    const { data: users, isLoading: isLoadingUsers, error } = useGetUsersByAdmin();
+    const totalUsers = users?.data?.pagination?.total || 0;
+    const { data: courses, isLoading: isLoadingCourses } = useGetCoursesByAdmin();  
+    const totalCourses = courses?.data?.pagination?.total || 0;
+
+    const navigate = useNavigate();
     return (
         <div>
+            {error && (
+                <Alert
+                    message="Access Denied"
+                    description="You do not have permission to view admin data. Please log in with an Admin account."
+                    type="error"
+                    showIcon
+                    style={{ marginBottom: '24px' }}
+                />
+            )}
             <DashboardGrid>
-                <StatCard 
+                <StatCard onClick={() => navigate('/admin/users')}
                     title="Total Users" 
-                    value="1,234" 
+                    value={isLoadingUsers ? '...' : totalUsers} 
                     icon={<UserOutlined />} 
                     color="#3b82f6" 
                     bgColor="#eff6ff" 
                 />
                 <StatCard 
                     title="Total Courses" 
-                    value="45" 
+                    value={isLoadingCourses ? '...' : totalCourses} 
                     icon={<BookOutlined />} 
                     color="#10b981" 
                     bgColor="#ecfdf5" 
+                    onClick={() => navigate('/admin/courses')}
                 />
                 <StatCard 
                     title="Total Revenue" 
-                    value="$12,840" 
+                    value="$0" 
                     icon={<DollarOutlined />} 
                     color="#f59e0b" 
                     bgColor="#fffbeb" 
@@ -53,6 +73,7 @@ export default function AdminDashboard() {
                     icon={<AppstoreOutlined />} 
                     color="#8b5cf6" 
                     bgColor="#f5f3ff" 
+                    onClick={() => navigate('/admin/categories')}
                 />
             </DashboardGrid>
 
